@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Loading</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="d-flex justify-content-start mb-3">
+        <a href="javascript:history.back()" class="btn btn-danger">Go Back</a>
+    </div>
+    <main class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="progress w-50">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+        </div>
+    </main>
+    <script>
+        setTimeout(function () {
+            window.location.href = "/search";
+        }, 1000);
+    </script>
+</body>
+</html>

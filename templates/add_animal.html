@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Animal</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            min-height: 100vh;
+            margin: 0;
+            overflow-y: auto;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            text-align: left;
+        }
+
+        input,
+        select,
+        .form-control-file {
+            width: 100%;
+            padding: 0.375rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            box-sizing: border-box;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<main class="container mt-5">
+
+    <form action="/add-animal" method="post" enctype="multipart/form-data">
+        <label for="animal_name">Name:</label>
+        <input type="text" id="animal_name" name="animal_name" placeholder="Name" autocomplete="off" class="form-control">
+
+        <label for="animal_type">Type:</label>
+        <select id="animal_type" name="animal_type" class="form-control">
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="bird">Bird</option>
+            <option value="horse">Horse</option>
+            <option value="rabbit">Rabbit</option>
+        </select>
+
+        <label for="animal_size">Size:</label>
+        <select id="animal_size" name="animal_size" class="form-control">
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+        </select>
+
+        <label for="animal_gender">Gender:</label>
+        <select id="animal_gender" name="animal_gender" class="form-control">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <label for="animal_breed">Breed:</label>
+        <input type="text" id="animal_breed" name="animal_breed" placeholder="Breed" autocomplete="off" class="form-control">
+
+        <label for="animal_weight">Weight:</label>
+        <div class="input-group">
+            <input type="number" id="animal_weight" name="animal_weight" placeholder="Weight" autocomplete="off" class="form-control">
+            <div class="input-group-append">
+                <label for="weight_unit"></label>
+                <select id="weight_unit" name="weight_unit" class="form-control">
+                    <option value="kg">kg</option>
+                    <option value="g">g</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="animal_height">Height:</label>
+        <div class="input-group">
+            <input type="number" id="animal_height" name="animal_height" placeholder="Height" autocomplete="off" class="form-control">
+            <div class="input-group-append">
+                <label for="height_unit"></label>
+                <select id="height_unit" name="height_unit" class="form-control">
+                    <option value="cm">cm</option>
+                    <option value="m">m</option>
+                </select>
+            </div>
+        </div>
+
+        <label for="animal_age">Age:</label>
+        <input type="text" id="animal_age" name="animal_age" placeholder="Age" pattern="[0-9]+([.][0-9]+)?" title="Enter a valid number or float" autocomplete="off" class="form-control">
+
+        <label for="animal_description">Description:</label>
+        <input type="text" id="animal_description" name="animal_description" placeholder="Description" autocomplete="off" class="form-control">
+
+        <label for="animal_image">Image:</label>
+        <input type="file" id="animal_image" name="animal_image" accept="image/*" class="form-control-file">
+
+        <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+</main>
+</body>
+</html>
