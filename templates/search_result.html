@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<main class="container mt-5">
+    <div class="d-flex justify-content-start mb-3">
+        <a href="javascript:history.back()" class="btn btn-warning">Go Back</a>
+    </div>
+</main>
+<main class="container mt-5">
+    <form action="/result-search" method="get" class="mb-3">
+        <div class="form-row align-items-center">
+            <div class="col">
+                <label class="sr-only" for="searchInput">Search for animals</label>
+                <input type="text" name="q" id="searchInput" placeholder="Search for animals" autocomplete="off" class="form-control">
+            </div>
+            <div class="col">
+                <label class="sr-only" for="searchOption">Search Option</label>
+                <select name="search_option" id="searchOption" class="form-control form-control-sm">
+                    <option value="animal_name">Name</option>
+                    <option value="animal_age">Age</option>
+                    <option value="animal_size">Size</option>
+                    <option value="animal_breed">Breed</option>
+                    <option value="animal_gender">Gender</option>
+                    <option value="animal_weight">Weight</option>
+                    <option value="animal_type">Species</option>
+                </select>
+            </div>
+            <div class="col">
+                <input type="submit" value="Search" class="btn btn-primary mt-2">
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Age</th>
+            <th>Size</th>
+            <th>Gender</th>
+            <th>Breed</th>
+            <th>Weight</th>
+            <th>Weight Unit</th>
+            <th>Height</th>
+            <th>Height Unit</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for animal in animals %}
+        <tr>
+            <td>{{ animal.animal_name }}</td>
+            <td>{{ animal.animal_type }}</td>
+            <td>{{ animal.animal_size }}</td>
+            <td>{{ animal.animal_gender }}</td>
+            <td>{{ animal.animal_breed }}</td>
+            <td>{{ animal.animal_weight }}</td>
+            <td>{{ animal.animal_height }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+
+<script>
+    document.getElementById('searchOption').addEventListener('change', function() {
+        const searchInput = document.getElementById('searchInput');
+        const selectedOption = this.value;
+
+        if (selectedOption === 'animal_size') {
+            searchInput.outerHTML = `
+                <select id="searchInput" name="q" class="form-control">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                </select>
+            `;
+
+        } else if (selectedOption === 'animal_gender') {
+            searchInput.outerHTML = `
+                <select id="searchInput" name="q" class="form-control">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            `;
+
+        } else if (selectedOption === 'animal_type') {
+            searchInput.outerHTML = `
+                <select id="searchInput" name="q" class="form-control">
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
+                    <option value="Bird">Bird</option>
+                    <option value="Horse">Horse</option>
+                    <option value="Rabbit">Rabbit</option>
+                </select>
+            `;
+
+        } else if (selectedOption === 'animal_breed') {
+            fetch('/get-breeds')
+                .then(response => response.json())
+                .then(breeds => {
+                    const options = breeds.map(breed => `<option value="${breed}">${breed}</option>`).join('');
+                    searchInput.outerHTML = `
+                        <select id="searchInput" name="q" class="form-control">
+                            ${options}
+                        </select>
+                    `;
+                });
+        } else if (selectedOption === 'animal_weight' || selectedOption === 'animal_height' || selectedOption === 'animal_age') {
+            searchInput.outerHTML = '<input type="number" name="q" id="searchInput" placeholder="Enter value" autocomplete="off" class="form-control">';
+        } else {
+            searchInput.outerHTML = '<input type="text" name="q" id="searchInput" placeholder="Search for animals" autocomplete="off" class="form-control">';
+        }
+    });
+
+</script>
+
+</body>
+</html>

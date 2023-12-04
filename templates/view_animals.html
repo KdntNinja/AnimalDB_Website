@@ -8,11 +8,11 @@
 <body>
     <main class="container mt-5">
         <div class="d-flex justify-content-start mb-3">
-            <a href="javascript:history.back()" class="btn btn-danger">Go Back</a>
+            <a href="javascript:history.back()" class="btn btn-warning">Go Back</a>
         </div>
 
     <div class="d-flex justify-content-end mb-3">
-        <a href="/search" class="btn btn-primary">Go to Search</a>
+        <a href="/result-search" class="btn btn-primary">Go to Search</a>
     </div>
     <div class="table-responsive">
         <table class="table table-striped">
@@ -20,6 +20,7 @@
             <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Age</th>
                 <th>Size</th>
                 <th>Gender</th>
                 <th>Breed</th>
@@ -27,29 +28,40 @@
                 <th>Weight Unit</th>
                 <th>Height</th>
                 <th>Height Unit</th>
-                <th>Age</th>
-                <th>Image</th>
             </tr>
             </thead>
-            <tbody>
-            {% for row in rows %}
-            <tr>
-                <td>{{ row.animal_name }}</td>
-                <td>{{ row.animal_type }}</td>
-                <td>{{ row.animal_size }}</td>
-                <td>{{ row.animal_gender }}</td>
-                <td>{{ row.animal_breed }}</td>
-                <td>{{ row.animal_weight }}</td>
-                <td>{{ row.weight_unit }}</td>
-                <td>{{ row.animal_height }}</td>
-                <td>{{ row.height_unit }}</td>
-                <td>{{ row.animal_age }}</td>
-                <td><img src="{{ row.animal_image }}" alt="Animal Image" style="max-width: 100px; max-height: 100px;"></td>
-            </tr>
-            {% endfor %}
-            </tbody>
+                <tbody>
+                {% for animal in rows %}
+                <tr>
+                    <td>{{ animal.animal_name }}</td>
+                    <td>{{ animal.animal_type }}</td>
+                    <td>{{ animal.animal_age }}</td>
+                    <td>{{ animal.animal_size }}</td>
+                    <td>{{ animal.animal_gender }}</td>
+                    <td>{{ animal.animal_breed }}</td>
+                    <td>{{ animal.animal_weight }}</td>
+                    <td>{{ animal.animal_weight_unit }}</td>
+                    <td>{{ animal.animal_height }}</td>
+                    <td>{{ animal.animal_height_unit }}</td>
+                    <td><button class="btn btn-danger delete-btn" data-id="{{ animal.id }}">Delete</button></td>
+                </tr>
+                {% endfor %}
+                </tbody>
         </table>
     </div>
 </main>
+
+<script>
+document.querySelectorAll('.delete-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        const animalId = this.dataset.id;
+        fetch('/delete-animal/' + animalId, {
+            method: 'DELETE',
+        })
+        .then(response => location.reload());
+    });
+});
+</script>
+
 </body>
 </html>
