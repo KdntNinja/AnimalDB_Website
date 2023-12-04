@@ -44,8 +44,7 @@ def create_table():
             animal_height TEXT NOT NULL,
             height_unit TEXT NOT NULL,
             animal_age TEXT NOT NULL,
-            animal_description TEXT NOT NULL,
-            animal_image TEXT NOT NULL
+            animal_description TEXT NOT NULL
         )
     """)
     con.commit()
@@ -56,15 +55,6 @@ def create_table():
 def add_animal():
     if request.method == "POST":
         try:
-            image = request.files["animal_image"]
-            filename = None
-            if image.filename != "":
-                filename = secure_filename(image.filename)
-                image.save(os.path.join("data/img", filename))
-                animal_image = "/data/img/" + filename
-            else:
-                animal_image = None
-
             animal_data = (
                 request.form["animal_name"],
                 request.form["animal_type"],
@@ -76,10 +66,9 @@ def add_animal():
                 request.form["animal_height"],
                 request.form["height_unit"],
                 request.form["animal_age"],
-                request.form["animal_description"],
-                animal_image
+                request.form["animal_description"]
             )
-            query = "INSERT INTO animals (animal_name, animal_type, animal_size, animal_gender, animal_breed, animal_weight, weight_unit, animal_height, height_unit, animal_age, animal_description, animal_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            query = "INSERT INTO animals (animal_name, animal_type, animal_size, animal_gender, animal_breed, animal_weight, weight_unit, animal_height, height_unit, animal_age, animal_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
             execute_db_query(query, animal_data)
             msg = "Record successfully added"
         except sql.Error as e:
