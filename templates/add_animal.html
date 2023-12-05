@@ -37,14 +37,6 @@
 
         input,
         select,
-        .form-control-file {
-            width: 100%;
-            padding: 0.375rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ced4da;
-            border-radius: 0.25rem;
-            box-sizing: border-box;
-        }
 
         .input-group {
             margin-bottom: 1rem;
@@ -122,5 +114,19 @@
         <input type="submit" value="Submit" class="btn btn-primary">
     </form>
 </main>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const inputs = document.querySelectorAll('input');
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].value === '') {
+                e.preventDefault();
+                alert('All fields must be filled out');
+                return false;
+            }
+        }
+    });
+</script>
+
 </body>
 </html>

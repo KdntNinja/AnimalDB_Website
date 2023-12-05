@@ -4,20 +4,80 @@
     <meta charset="UTF-8">
     <title>Loading</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .loading-text {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .loading-bar-container {
+            width: 50%;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-bar {
+            width: 0;
+            height: 20px;
+            background-color: #007bff;
+            transition: width 1s ease-in-out;
+        }
+
+        .loading-percentage {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-    <div class="d-flex justify-content-start mb-3">
-        <a href="javascript:history.back()" class="btn btn-warning">Go Back</a>
+<div class="d-flex justify-content-start mb-3">
+    <a href="javascript:history.back()" class="btn btn-warning">Go Back</a>
+</div>
+<main class="loading-container">
+    <div class="loading-text">Loading...</div>
+    <div class="loading-bar-container">
+        <div class="loading-bar"></div>
+        <div class="loading-percentage">0%</div>
     </div>
-    <main class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="progress w-50">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
-        </div>
-    </main>
-    <script>
-        setTimeout(function () {
-            window.location.href = "/result-search";
-        }, 1000);
-    </script>
+</main>
+<script>
+
+    let progress = 0;
+    const loadingBar = document.querySelector('.loading-bar');
+    const loadingPercentage = document.querySelector('.loading-percentage');
+
+    function updateProgressBar() {
+        progress += 5;
+        loadingBar.style.width = `${progress}%`;
+        loadingPercentage.textContent = `${progress}%`;
+
+        if (progress < 100) {
+            setTimeout(updateProgressBar, 10);
+        } else if (progress >= 100) {
+            setTimeout(() => {
+                window.location.href = "/view-animals";
+            }, 1000); // Delay before redirecting
+        }
+    }
+
+    updateProgressBar();
+
+</script>
 </body>
 </html>

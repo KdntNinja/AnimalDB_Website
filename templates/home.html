@@ -2,14 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Animal Database</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        main {
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        .btn {
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
-    <main class="container mt-5">
-        <h1>Welcome to the Animal Database</h1>
-        <a href="/add-animal" class="btn btn-primary mt-3">Add Animal</a>
-        <a href="/view-animals" class="btn btn-secondary mt-3">View Animals</a>
-    </main>
+<main class="container">
+    <h1>Welcome to the Animal Database</h1>
+    <a href="/add-animal" class="btn btn-primary">Add Animal</a>
+    <a href="/view-animals" class="btn btn-secondary">View Animals</a>
+</main>
 </body>
 </html>
