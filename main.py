@@ -1,10 +1,10 @@
-from werkzeug.utils import secure_filename
 import sqlite3 as sql
 from flask import *
-import os
+from flask_caching import Cache
 
 
 app = Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 DATABASE = "data/Data.sqlite3"
 
@@ -12,7 +12,7 @@ DATABASE = "data/Data.sqlite3"
 @app.route("/")
 def home():
     create_table()
-    return render_template("home.html")
+    return render_template("index.html")
 
 
 def get_db_connection():
@@ -43,8 +43,7 @@ def create_table():
             weight_unit TEXT NOT NULL,
             animal_height TEXT NOT NULL,
             height_unit TEXT NOT NULL,
-            animal_age TEXT NOT NULL,
-            animal_description TEXT NOT NULL
+            animal_age TEXT NOT NULL
         )
     """)
     con.commit()
@@ -65,10 +64,9 @@ def add_animal():
                 request.form["weight_unit"],
                 request.form["animal_height"],
                 request.form["height_unit"],
-                request.form["animal_age"],
-                request.form["animal_description"]
+                request.form["animal_age"]
             )
-            query = "INSERT INTO animals (animal_name, animal_type, animal_size, animal_gender, animal_breed, animal_weight, weight_unit, animal_height, height_unit, animal_age, animal_description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            query = "INSERT INTO animals (animal_name, animal_type, animal_size, animal_gender, animal_breed, animal_weight, weight_unit, animal_height, height_unit, animal_age) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
             execute_db_query(query, animal_data)
             msg = "Record successfully added"
         except sql.Error as e:
@@ -81,10 +79,10 @@ def add_animal():
 
 @app.route("/add-animal-loading")
 def loading():
-    return render_template("loading.html")
+    return render_template("loading_bar.html")
 
 
-@app.route("/result-search")
+@app.route("/search")
 def search():
     query = request.args.get("q", "")
     search_option = request.args.get("search_option", "animal_name")
@@ -94,10 +92,11 @@ def search():
     cur.execute(f"SELECT * FROM animals WHERE {search_option} LIKE ?", ("%" + query + "%",))
     animals = cur.fetchall()
     con.close()
-    return render_template("search_result.html", animals=animals)
+    return render_template("search.html", animals=animals)
 
 
 @app.route("/get-breeds")
+@cache.cached(timeout=50)
 def get_breeds():
     con = get_db_connection()
     cur = con.cursor()
@@ -107,7 +106,7 @@ def get_breeds():
     return jsonify(breeds)
 
 
-@app.route("/view-animals")
+@app.route("/search")
 def view_animals():
     con = get_db_connection()
     con.row_factory = sql.Row
@@ -115,7 +114,7 @@ def view_animals():
     cur.execute("SELECT * FROM animals")
     rows = cur.fetchall()
     con.close()
-    return render_template("view_animals.html", rows=rows)
+    return render_template("search.html", rows=rows)
 
 
 @app.route("/delete-animal/<int:animal_id>", methods=["DELETE"])
@@ -129,4 +128,4 @@ def delete_animal(animal_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

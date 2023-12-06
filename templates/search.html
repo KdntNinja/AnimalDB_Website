@@ -8,11 +8,11 @@
 <body>
 <main class="container mt-5">
     <div class="d-flex justify-content-start mb-3">
-        <a href="javascript:history.back()" class="btn btn-warning">Go Back</a>
+        <a href="index.html" class="btn btn-warning">Go Home</a>
     </div>
 </main>
 <main class="container mt-5">
-    <form action="/result-search" method="get" class="mb-3">
+    <form action="/search" method="get" class="mb-3">
         <div class="form-row align-items-center">
             <div class="col">
                 <label class="sr-only" for="searchInput">Search for animals</label>
@@ -63,6 +63,8 @@
                 <td>{{ animal.weight_unit }}</td>
                 <td>{{ animal.animal_height }}</td>
                 <td>{{ animal.height_unit }}</td>
+                <td>
+                    <button class="btn btn-danger delete-btn" data-id="{{ animal.id }}">Delete</button>
             </tr>
         {% endfor %}
         </tbody>
@@ -119,6 +121,16 @@
         } else {
             searchInput.outerHTML = '<input type="text" name="q" id="searchInput" placeholder="Search for animals" autocomplete="off" class="form-control">';
         }
+    });
+
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const animalId = this.dataset.id;
+            fetch('/delete-animal/' + animalId, {
+                method: 'DELETE',
+            })
+                .then(_response => location.reload());
+        });
     });
 
 </script>
